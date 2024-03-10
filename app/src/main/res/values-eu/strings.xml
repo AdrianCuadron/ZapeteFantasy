@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ZapeteFantasy</string>
+    <string name="title_activity_login">ZapeteFantasy</string>
+    <string name="hola">Kaixo</string>
+    <string name="matchday">Partidu Eguna</string>
+    <string name="news">Berriak</string>
+    <string name="newPost">Publikazio Berria</string>
+    <string name="postButton">PUBLIKATU</string>
+    <string name="settings">Konfigurazioa</string>
+    <string name="language">Hizkuntza</string>
+    <string name="coin">Txanpon</string>
+    <string name="team">Ekipoa</string>
+    <string name="positionCompleted">Posizio konpletua</string>
+    <string name="sell">Saldu</string>
+    <string name="notMoney">Diru nahikorik ez</string>
+</resources>

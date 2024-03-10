@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ZapeteFantasy</string>
+    <string name="title_activity_login">ZapeteFantasy</string>
+    <string name="hola">Hello</string>
+    <string name="matchday">Matchday</string>
+    <string name="news">News</string>
+    <string name="newPost">New Post</string>
+    <string name="postButton">POST</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="coin">Coin</string>
+    <string name="team">Team</string>
+    <string name="positionCompleted">Position Completed</string>
+    <string name="sell">Sell</string>
+    <string name="notMoney">Insufficient money</string>
+</resources>
