@@ -1,8 +1,8 @@
 package com.cuadrondev.zapetefantasy.screens.login
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,22 +23,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.cuadrondev.zapetefantasy.activities.MainActivity
+import com.cuadrondev.zapetefantasy.model.entities.User
 import com.cuadrondev.zapetefantasy.navigation.AppScreens
+import com.cuadrondev.zapetefantasy.utils.hash
 import com.cuadrondev.zapetefantasy.viewmodels.AuthViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel, context: Context) {
+fun RegisterScreen(
+    navController: NavHostController,
+    viewModel: AuthViewModel,
+    context: Context
+) {
+
     var username by rememberSaveable {
         mutableStateOf("")
     }
     var password by rememberSaveable {
         mutableStateOf("")
     }
+    var nombre by rememberSaveable {
+        mutableStateOf("")
+    }
+    var apellido by rememberSaveable {
+        mutableStateOf("")
+    }
 
     val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -65,18 +79,34 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel, cont
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Button(onClick = { coroutineScope.launch(Dispatchers.IO) {
-                    checkCredentials(viewModel, context, username, password)
-                } }) {
-                    Text(text = "Acceder")
-                }
+                OutlinedTextField(value = nombre, onValueChange = { nombre = it }, label = {
+                    Text(
+                        text = "Nombre"
+                    )
+                })
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedTextField(value = apellido, onValueChange = { apellido = it }, label = {
+                    Text(
+                        text = "Apellido"
+                    )
+                })
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Button(onClick = {
-                    navController.navigate(AppScreens.RegisterScreen.route)
+                    coroutineScope.launch(Dispatchers.IO) {
+                        if (createUser(viewModel, username, password, nombre, apellido, context)) {
+                            withContext(Dispatchers.Main) {
+                                navController.popBackStack()
+                                navController.navigate(AppScreens.LoginScreen.route)
+                            }
+                        }
+
+                    }
                 }) {
-                    Text(text = "Registrarse")
+                    Text(text = "Crear usuario")
                 }
             }
 
@@ -85,13 +115,22 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel, cont
     }
 }
 
-suspend fun checkCredentials(viewModel: AuthViewModel, context: Context, username: String, password: String) {
-    if (viewModel.checkCredentials(username,password)){
-        val intent = Intent(context, MainActivity::class.java)
-        intent.putExtra("USERNAME", username)
-        context.startActivity(intent)
-        (context as Activity).finish()
+fun createUser(
+    viewmodel: AuthViewModel,
+    username: String,
+    password: String,
+    nombre: String,
+    apellido: String,
+    context: Context
+): Boolean {
+    val existe = viewmodel.checkUserExist(username)
+    if (existe != null) {
+        Toast.makeText(context, "El usuario $username ya existe", Toast.LENGTH_SHORT).show()
+        return false
+    } else {
+        viewmodel.createUser(User(username,password.hash(),nombre,apellido,0,200.0))
+        return true
     }
 
-
 }
+

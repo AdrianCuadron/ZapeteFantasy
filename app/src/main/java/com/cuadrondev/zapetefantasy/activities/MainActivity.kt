@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.cuadrondev.zapetefantasy.navigation.MainNavigation
 import com.cuadrondev.zapetefantasy.ui.theme.ZapeteFantasyTheme
-import com.cuadrondev.zapetefantasy.utils.changeAppLanguage
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first

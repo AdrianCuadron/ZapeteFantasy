@@ -47,7 +47,7 @@ class PreferencesDataStore @Inject constructor(
     }
 
     fun getUserCoin(username: String): Flow<String> {
-        return myPreferencesDataStore.data.map { it[PreferencesKeys.USER_COIN(username)] ?: "euro" }
+        return myPreferencesDataStore.data.map { it[PreferencesKeys.USER_COIN(username)] ?: "" }
 
     }
 }

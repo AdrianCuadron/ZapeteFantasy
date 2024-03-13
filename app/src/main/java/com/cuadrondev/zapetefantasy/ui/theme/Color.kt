@@ -67,16 +67,20 @@ val greenField = Color(0xFF5FC084)
 val greenPlayer = Color(0xFF2B9152)
 
 val publicacionColor = Color(0xFF344749)
-val transferenciaColor = Color(0xFF2C472E)
+val transferenciaColor = Color(0xFF49614B)
 
 val gold = Color(0XFFc9b037)
 val silver = Color(0XFFd7d7d7)
 val bronze = Color(0XFFad8a56)
 val gray = Color(0xFF424242)
 
-val dlColor = Color(0xFF833232)
+val dlColor = Color(0xFFAC1F1F)
 val mcColor = Color(0xFF419245)
 val dfColor = Color(0xFF396B92)
 val ptColor = Color(0xFF8E913F)
+
+val roja = Color(0xFFD60000)
+val lesionado = Color(0xFFFF5252)
+val duda = Color(0xFFDBAB00)
 
 val seed = Color(0xFF17FAB8)

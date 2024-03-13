@@ -34,6 +34,7 @@ import com.cuadrondev.zapetefantasy.R
 import com.cuadrondev.zapetefantasy.model.entities.User
 import com.cuadrondev.zapetefantasy.utils.getLanguageCode
 import com.cuadrondev.zapetefantasy.utils.getLanguageName
+import com.cuadrondev.zapetefantasy.utils.obtenerSimboloMoneda
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +48,8 @@ import kotlin.coroutines.coroutineContext
 @Composable
 fun UserScreen(viewModel: ZapeteFantasyViewModel) {
     var username = viewModel.userData.collectAsState(initial = User("", "", "", "", 0, 0.0))
+    var userLang = viewModel.idioma.collectAsState(initial = viewModel.currentSetLang).value
+    var userCoin = viewModel.coin.collectAsState(initial = "").value
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -57,10 +60,8 @@ fun UserScreen(viewModel: ZapeteFantasyViewModel) {
             Card {
                 Column(modifier = Modifier.padding(8.dp)) {
                     Text(text = stringResource(id = R.string.settings))
-
-                    LanguageDropDown { viewModel.changeLanguage(it) }
-                    CoinDropDown { viewModel.changeUserCoin(it) }
-
+                    LanguageDropDown(userLang) { viewModel.changeLanguage(it) }
+                    CoinDropDown(userCoin) { viewModel.changeUserCoin(it) }
                 }
 
             }
@@ -89,14 +90,14 @@ fun UserScreen(viewModel: ZapeteFantasyViewModel) {
             val action = { saverLauncher.launch(filename) }
 
             Button(onClick = action) {
-                Text(text = "Guardar plantilla")
+                Text(text = "Comprar Periódico")
             }
         }
     }
 }
 
 @Composable
-fun LanguageDropDown(changeLang: (String) -> Unit) {
+fun LanguageDropDown(userLang: String, changeLang: (String) -> Unit) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var languages = listOf("Español", "English", "Euskera")
     Box(
@@ -108,7 +109,7 @@ fun LanguageDropDown(changeLang: (String) -> Unit) {
             .padding(8.dp)
             .clickable { expanded = true }) {
             Icon(Icons.Rounded.Place, contentDescription = null)
-            Text(text = stringResource(id = R.string.language))
+            Text(text = stringResource(id = R.string.language) + ": ${getLanguageName(userLang)}")
         }
 
         DropdownMenu(
@@ -127,12 +128,7 @@ fun LanguageDropDown(changeLang: (String) -> Unit) {
 }
 
 @Composable
-fun guardarFichero(){
-    
-}
-
-@Composable
-fun CoinDropDown(changeUserCoin: (String) -> Unit) {
+fun CoinDropDown(userCoin: String, changeUserCoin: (String) -> Unit) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var coins = listOf("Euro", "Dolar", "Libra")
     Box(
@@ -145,7 +141,7 @@ fun CoinDropDown(changeUserCoin: (String) -> Unit) {
             .padding(8.dp)
             .clickable { expanded = true }) {
             Icon(Icons.Rounded.Place, contentDescription = null)
-            Text(text = stringResource(id = R.string.coin))
+            Text(text = stringResource(id = R.string.coin)+ ": ${obtenerSimboloMoneda(userCoin.lowercase())}")
         }
 
         DropdownMenu(

@@ -19,15 +19,21 @@ fun getLanguageCode(name: String) =
         else -> "en"
     }
 
-fun getCoinSymbol(code: String) =
+fun getNameFromLanguageCode(code: String) =
     when(code){
-        "Euro" -> "€"
-        "Dolar" -> "$"
-        else -> {"$"}
+        "es" -> "Español"
+        "en" -> "English"
+        "eu" -> "Euskera"
+        else -> "English"
     }
 
-fun changeAppLanguage(s: String) {
-    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(s))
+fun obtenerSimboloMoneda(userCoin: String): String {
+    return when (userCoin.lowercase()) {
+        "euro" -> "€" // Euro
+        "dolar" -> "$" // Dólar
+        "libra" -> "£" // Libra
+        else -> "€"   // Valor predeterminado si userCoin no coincide con ninguno de los anteriores
+    }
 }
 
 fun obtenerIniciales(nombre: String, apellido: String): String {

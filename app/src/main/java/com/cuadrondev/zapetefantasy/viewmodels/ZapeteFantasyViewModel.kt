@@ -16,7 +16,6 @@ import com.cuadrondev.zapetefantasy.model.entities.UserTeam
 import com.cuadrondev.zapetefantasy.model.repositories.UserDataRepository
 import com.cuadrondev.zapetefantasy.model.repositories.UserTeamRepository
 import com.cuadrondev.zapetefantasy.utils.LanguageManager
-import com.cuadrondev.zapetefantasy.utils.changeAppLanguage
 import com.cuadrondev.zapetefantasy.utils.getLanguageCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,9 +41,11 @@ class ZapeteFantasyViewModel @Inject constructor(
     //EXTRAS username
     private var currentUser = (savedStateHandle.get("USERNAME") as? String)!!
 
+
     //IDIOMA
     val currentSetLang by languageManager::currentLang
     val idioma = dataStore.getUserLanguage(currentUser)
+    val coin = dataStore.getUserCoin(currentUser)
 
     //DIALOGOS
     var dialogoPost = mutableStateOf(false)
@@ -52,11 +53,6 @@ class ZapeteFantasyViewModel @Inject constructor(
     var username = mutableStateOf(currentUser)
 
     //PREFERENCES
-
-    fun getLanguagePref(): Flow<String> {
-        return dataStore.getUserLanguage(currentUser)
-    }
-
 
     fun changeLanguage(lang: String) {
         Log.d("cambioLang", lang)
@@ -101,6 +97,8 @@ class ZapeteFantasyViewModel @Inject constructor(
         }
     }
 
+
+
     fun updateUser(user: User) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -115,14 +113,6 @@ class ZapeteFantasyViewModel @Inject constructor(
         }
     }
 
-    //LISTAS DE JUGADORES
-
-
-    data class Usuario(
-        val name: String,
-        val points: Int,
-        val image: ImageVector
-    )
 
 
     //SIGUIENTES PARTIDOS

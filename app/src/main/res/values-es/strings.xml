@@ -14,4 +14,7 @@
     <string name="positionCompleted">Posicion Completa</string>
     <string name="sell">Vender</string>
     <string name="notMoney">Saldo insuficiente</string>
+    <string name="home">Casa</string>
+    <string name="market">Mercado</string>
+    <string name="table">Tabla</string>
 </resources>

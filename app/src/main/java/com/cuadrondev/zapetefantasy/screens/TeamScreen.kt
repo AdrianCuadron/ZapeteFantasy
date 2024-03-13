@@ -195,11 +195,15 @@ fun TeamScreen(viewModel: ZapeteFantasyViewModel) {
                         //Posicion y Puntos
                         PositionPoints(player)
                         // Escudo a la izquierda
-                        TeamIcon(
-                            nombreEquipo = player.team,
-                            Modifier,
-                            viewModel.obtenerEscudo(player.team)
-                        )
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            TeamIcon(
+                                nombreEquipo = player.team,
+                                Modifier,
+                                viewModel.obtenerEscudo(player.team)
+                            )
+                            EstadoJugador(player.state)
+                        }
+
 
                         // Espaciador entre la imagen y la descripción
                         Spacer(modifier = Modifier.size(8.dp))
@@ -219,12 +223,13 @@ fun TeamScreen(viewModel: ZapeteFantasyViewModel) {
                         // BOTON VENDER
                         Button(onClick = {
                             val newMoney = userData.money + player.price
+                            val newPoints = userData.points - player.points
                             if (newMoney>0.0f){
                                 viewModel.updatePlayer(player.copy(user = "", lineUp = false))
-                                viewModel.updateUser(userData.copy(money = newMoney))
+                                viewModel.updateUser(userData.copy(money = newMoney, points = newPoints))
                                 viewModel.insertPost(
                                     Post(
-                                        tipo = "compra",
+                                        tipo = "venta",
                                         user = username,
                                         texto = "$username ha vendido a ${player.name}"
                                     )
@@ -254,10 +259,10 @@ fun TeamScreen(viewModel: ZapeteFantasyViewModel) {
 fun PositionPoints(player: Player) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Card(colors = CardDefaults.cardColors(containerColor = positionColor(player.position)), modifier = Modifier.padding(4.dp)) {
-            Text(text = player.position, fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold)
+            Text(text = player.position, fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
         }
         Card(colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.padding(4.dp)) {
-            Text(text = "${player.points}", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold)
+            Text(text = "${player.points}", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.Black)
         }
     }
 }
@@ -361,3 +366,4 @@ fun TeamIcon(nombreEquipo: String, modifier: Modifier, icono: Int) {
             .size(25.dp) // Ajusta el tamaño según tus necesidades
     )
 }
+

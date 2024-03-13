@@ -14,4 +14,7 @@
     <string name="positionCompleted">Posizio konpletua</string>
     <string name="sell">Saldu</string>
     <string name="notMoney">Diru nahikorik ez</string>
+    <string name="home">Etxea</string>
+    <string name="market">Merkatua</string>
+    <string name="table">Taula</string>
 </resources>

@@ -13,4 +13,7 @@
     <string name="positionCompleted">Position Completed</string>
     <string name="sell">Sell</string>
     <string name="notMoney">Insufficient money</string>
+    <string name="home">Home</string>
+    <string name="market">Market</string>
+    <string name="table">Table</string>
 </resources>

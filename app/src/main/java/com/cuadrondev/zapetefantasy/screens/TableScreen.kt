@@ -94,7 +94,7 @@ fun TableScreen(viewModel: ZapeteFantasyViewModel) {
 
                         // Descripción
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(text = user.name, fontWeight = FontWeight.Bold)
+                            Text(text = user.username, fontWeight = FontWeight.Bold)
                         }
 
                         // Espaciador entre la descripción y el botón

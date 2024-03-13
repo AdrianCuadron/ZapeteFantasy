@@ -6,10 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cuadrondev.zapetefantasy.screens.login.LoginScreen
+import com.cuadrondev.zapetefantasy.screens.login.RegisterScreen
 import com.cuadrondev.zapetefantasy.screens.login.SplashScreen
+import com.cuadrondev.zapetefantasy.viewmodels.AuthViewModel
 
 @Composable
-fun LoginNavigation() {
+fun LoginNavigation(viewModel: AuthViewModel) {
     var context = LocalContext.current
     val navController = rememberNavController()
 
@@ -18,7 +20,10 @@ fun LoginNavigation() {
             SplashScreen(navController)
         }
         composable(AppScreens.LoginScreen.route){
-            LoginScreen(context)
+            LoginScreen(navController, viewModel, context)
+        }
+        composable(AppScreens.RegisterScreen.route){
+            RegisterScreen(navController,viewModel,context)
         }
     }
 }

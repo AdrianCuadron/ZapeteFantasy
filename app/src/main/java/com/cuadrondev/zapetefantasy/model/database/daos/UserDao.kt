@@ -25,4 +25,10 @@ interface UserDao {
 
     @Query("SELECT * FROM User ORDER BY points DESC")
     fun getStandings(): Flow<List<User>>
+
+    @Query("SELECT username FROM User where username = :username")
+    fun checkUsernameExists(username: String): String
+
+    @Query("SELECT password FROM User WHERE username = :username")
+    suspend fun getUserPassword(username: String): String
 }

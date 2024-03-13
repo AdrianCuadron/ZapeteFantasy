@@ -37,8 +37,6 @@ object AppModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
 
-                    //db.execSQL("INSERT INTO User VALUES ('test1','a','a','a',24)")
-
                     var inputStream: InputStream = app.resources.openRawResource(R.raw.players)
                     var sqlQuery = BufferedReader(InputStreamReader(inputStream)).readText()
 

@@ -238,7 +238,7 @@ fun PublicacionCard(post: Post) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "${post.texto}", //cambiar mejorar
+                    text = "${post.texto}",
                     fontSize = 14.sp
                 )
             }

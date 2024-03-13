@@ -54,6 +54,7 @@ import com.cuadrondev.zapetefantasy.model.entities.User
 import com.cuadrondev.zapetefantasy.navigation.AppScreens
 import com.cuadrondev.zapetefantasy.navigation.BottomBarRoute
 import com.cuadrondev.zapetefantasy.navigation.SECTIONS
+import com.cuadrondev.zapetefantasy.utils.obtenerSimboloMoneda
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 
 @SuppressLint("UnrememberedMutableState")
@@ -120,7 +121,6 @@ fun ZapeteNavigationRail(currentRoute: String, onNavigate: (String) -> Unit) {
 
             NavigationRailItem(
                 icon = { Icon(ImageVector.vectorResource(id = destinations.selectedIcon), contentDescription = null) },
-                label = { Text(text = destinations.iconText) },
                 selected = currentRoute == destinations.route,
                 onClick = { onNavigate(destinations.route) }
             )
@@ -133,6 +133,8 @@ fun ZapeteNavigationRail(currentRoute: String, onNavigate: (String) -> Unit) {
 fun ToolBar(viewModel: ZapeteFantasyViewModel, onUserClick: () -> Unit) {
     val userData by viewModel.userData.collectAsState(initial = User("","","","",0,0.0))
     var username = viewModel.username.value
+    var userCoin = viewModel.coin.collectAsState(initial = "").value
+
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -163,7 +165,7 @@ fun ToolBar(viewModel: ZapeteFantasyViewModel, onUserClick: () -> Unit) {
                     ),
                     shape = RoundedCornerShape(16.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)) {
-                    Text("$ ${userData.money}M", fontWeight = FontWeight.Bold, fontSize = 14.sp, modifier = Modifier.padding(4.dp))
+                    Text("${obtenerSimboloMoneda(userCoin)} ${String.format("%.2f", userData.money)}M", fontWeight = FontWeight.Bold, fontSize = 14.sp, modifier = Modifier.padding(4.dp))
                 }
 
                 //User profile
@@ -181,6 +183,8 @@ fun ToolBar(viewModel: ZapeteFantasyViewModel, onUserClick: () -> Unit) {
     )
 }
 
+
+
 @Composable
 fun FAB() {
     FloatingActionButton(onClick = { /* TODO: */ }, containerColor = MaterialTheme.colorScheme.primary) {
@@ -194,7 +198,6 @@ fun AppBottomBar(currentRoute: String?, onNavigate: (String) -> Unit) {
         SECTIONS.forEach { destinations ->
             NavigationBarItem(
                 icon = { Icon(ImageVector.vectorResource(id = destinations.selectedIcon), contentDescription = null) },
-                label = { Text(text = destinations.iconText) },
                 selected = currentRoute == destinations.route,
                 onClick = { onNavigate(destinations.route) }
             )
