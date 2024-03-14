@@ -1,9 +1,8 @@
 package com.cuadrondev.zapetefantasy.viewmodels
 
+import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,13 +15,10 @@ import com.cuadrondev.zapetefantasy.model.entities.UserTeam
 import com.cuadrondev.zapetefantasy.model.repositories.UserDataRepository
 import com.cuadrondev.zapetefantasy.model.repositories.UserTeamRepository
 import com.cuadrondev.zapetefantasy.utils.LanguageManager
-import com.cuadrondev.zapetefantasy.utils.getLanguageCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -65,10 +61,6 @@ class ZapeteFantasyViewModel @Inject constructor(
 
     fun reloadLanguage(lang: String){
         languageManager.changeLang(lang)
-    }
-
-    fun getUserCoin(): Flow<String> {
-        return dataStore.getUserCoin(currentUser)
     }
 
     fun changeUserCoin(coin: String) {

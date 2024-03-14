@@ -1,5 +1,7 @@
 package com.cuadrondev.zapetefantasy.screens
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -18,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,9 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -47,9 +54,37 @@ import com.cuadrondev.zapetefantasy.model.entities.Post
 import com.cuadrondev.zapetefantasy.ui.theme.publicacionColor
 import com.cuadrondev.zapetefantasy.ui.theme.transferenciaColor
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
+import kotlin.system.exitProcess
 
 @Composable
 fun HomeScreen(viewModel: ZapeteFantasyViewModel) {
+    val context = LocalContext.current
+
+    var showExitAlertDialog by rememberSaveable { mutableStateOf(false) }
+
+    if (showExitAlertDialog){
+
+        AlertDialog(
+            title = { Text(stringResource(id = R.string.exit), textAlign = TextAlign.Center) },
+            text = { Text("") },
+            confirmButton = {
+                TextButton(onClick = { exitProcess(0) }) {
+                    Text(text = stringResource(id = R.string.exit_button))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showExitAlertDialog = false }) {
+                    Text(text = stringResource(id = R.string.cancel_button))
+                }
+            },
+            onDismissRequest = { showExitAlertDialog = false }
+        )
+
+    }
+
+    BackHandler {  showExitAlertDialog = true }
+
+
     if (viewModel.dialogoPost.value) {
         DialogoPost(onConfirmation = { texto ->
             viewModel.insertPost(Post(tipo = "publicacion",user = viewModel.username.value, texto = texto))
@@ -60,29 +95,27 @@ fun HomeScreen(viewModel: ZapeteFantasyViewModel) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            //.background(MaterialTheme.colorScheme.background)
     ) {
 
         LazyColumn(
 
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //Titulo
-            item {
-                Text(text = "LaLiga")
-            }
 
             item {
-                Column {
-                    Text(text = stringResource(id = R.string.matchday))
-                }
+
+                Text(text = stringResource(id = R.string.matchday), fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(8.dp))
                 ListaPartidos(viewModel)
+                Spacer(modifier = Modifier.height(16.dp))
 
             }
 
             //Actividad
             item {
-                Text(text = stringResource(id = R.string.news))
+                Text(text = stringResource(id = R.string.news), fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(8.dp))
                 Actividades(viewModel)
             }
         }
@@ -91,7 +124,9 @@ fun HomeScreen(viewModel: ZapeteFantasyViewModel) {
             onClick = { viewModel.dialogoPost.value = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(8.dp)
+                .padding(12.dp),
+            containerColor = MaterialTheme.colorScheme.primary
+
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.edit_new),
@@ -179,7 +214,7 @@ fun TransferenciaCard(post: Post) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        colors = CardDefaults.cardColors(containerColor = transferenciaColor),
+        //colors = CardDefaults.cardColors(containerColor = transferenciaColor),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
 
@@ -194,11 +229,13 @@ fun TransferenciaCard(post: Post) {
                 imageVector = Icons.Rounded.ShoppingCart,
                 contentDescription = null
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "${post.texto}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(4.dp),
+                //color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
             // Agrega otros elementos según tus necesidades
@@ -212,7 +249,7 @@ fun PublicacionCard(post: Post) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        colors = CardDefaults.cardColors(containerColor = publicacionColor),
+        //colors = CardDefaults.cardColors(containerColor = publicacionColor),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
 
@@ -220,16 +257,17 @@ fun PublicacionCard(post: Post) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(14.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Rounded.Send,
                 contentDescription = null
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(4.dp)
             ) {
                 Text(
                     text = "${post.user}",
@@ -239,7 +277,8 @@ fun PublicacionCard(post: Post) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "${post.texto}",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    //color = Color.White
                 )
             }
         }
@@ -252,19 +291,19 @@ fun PublicacionCard(post: Post) {
 fun ListaPartidos(viewModel: ZapeteFantasyViewModel) {
     LazyRow(
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         items(viewModel.listaPartidos.value) { partido ->
             Card(
                 modifier = Modifier
-                    .padding(4.dp)
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
                     .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 shape = RoundedCornerShape(200.dp)
             ) {
                 Row(
                     modifier = Modifier
-                        .padding(12.dp)
+                        .padding(vertical = 12.dp, horizontal = 12.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -277,18 +316,19 @@ fun ListaPartidos(viewModel: ZapeteFantasyViewModel) {
                     // En el medio: Hora y fecha
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(horizontal = 4.dp),
+                            .fillMaxHeight(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
                             text = partido.dia,
                             fontSize = 12.sp,
+                            lineHeight = 13.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = partido.hora,
                             fontSize = 12.sp,
+                            lineHeight = 13.sp,
                             fontWeight = FontWeight.Bold
                         )
                     }

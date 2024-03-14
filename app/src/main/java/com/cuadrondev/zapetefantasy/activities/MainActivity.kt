@@ -15,7 +15,6 @@ import com.cuadrondev.zapetefantasy.navigation.MainNavigation
 import com.cuadrondev.zapetefantasy.ui.theme.ZapeteFantasyTheme
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -30,9 +29,12 @@ class MainActivity : AppCompatActivity() {
         setContent {
             ZapeteFantasyTheme {
                 //initialize language
-                Log.d("cambioLang", "main1")
-                viewModel.reloadLanguage(viewModel.idioma.collectAsState(initial = viewModel.currentSetLang).value)
-                Log.d("cambioLang", "main2")
+
+                var idioma = viewModel.idioma.collectAsState(initial = viewModel.currentSetLang).value
+                viewModel.reloadLanguage(idioma)
+                Log.d("currentLang", viewModel.currentSetLang)
+                Log.d("localLang", Locale.getDefault().language.lowercase())
+                Log.d("cambioLang", idioma)
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()

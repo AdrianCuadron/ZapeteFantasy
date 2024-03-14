@@ -66,12 +66,12 @@ class LanguageManager @Inject constructor() {
 
     // Method to change the App's language setting a new locale
     fun changeLang(lang: String) {
-        if (lang != currentLang || currentLang != Locale.getDefault().language) {
-            val localeList = LocaleListCompat.forLanguageTags(lang)
-            AppCompatDelegate.setApplicationLocales(localeList)
 
-            currentLang = lang
-        }
+        val localeList = LocaleListCompat.forLanguageTags(lang)
+        AppCompatDelegate.setApplicationLocales(localeList)
+        currentLang = lang
 
     }
+
+
 }

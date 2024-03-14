@@ -16,4 +16,8 @@
     <string name="home">Home</string>
     <string name="market">Market</string>
     <string name="table">Table</string>
+    <string name="exit">Are you sure you want to exit?</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="exit_button">Exit</string>
+    <string name="buy_newspaper">Buy newspaper</string>
 </resources>

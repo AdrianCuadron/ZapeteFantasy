@@ -7,14 +7,18 @@
     <string name="news">Noticias</string>
     <string name="newPost">Nueva Publicación</string>
     <string name="postButton">PUBLICAR</string>
-    <string name="settings">Configuracion</string>
+    <string name="settings">Configuración</string>
     <string name="language">Idioma</string>
     <string name="coin">Moneda</string>
     <string name="team">Equipo</string>
-    <string name="positionCompleted">Posicion Completa</string>
+    <string name="positionCompleted">Posición Completa</string>
     <string name="sell">Vender</string>
     <string name="notMoney">Saldo insuficiente</string>
     <string name="home">Casa</string>
     <string name="market">Mercado</string>
     <string name="table">Tabla</string>
+    <string name="exit">¿Estás seguro de que quieres salir?</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="exit_button">Salir</string>
+    <string name="buy_newspaper">Comprar periódico</string>
 </resources>

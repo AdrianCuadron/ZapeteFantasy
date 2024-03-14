@@ -9,7 +9,7 @@
     <string name="postButton">PUBLIKATU</string>
     <string name="settings">Konfigurazioa</string>
     <string name="language">Hizkuntza</string>
-    <string name="coin">Txanpon</string>
+    <string name="coin">Txanpona</string>
     <string name="team">Ekipoa</string>
     <string name="positionCompleted">Posizio konpletua</string>
     <string name="sell">Saldu</string>
@@ -17,4 +17,8 @@
     <string name="home">Etxea</string>
     <string name="market">Merkatua</string>
     <string name="table">Taula</string>
+    <string name="exit">Ziur zaude irten nahi duzula?</string>
+    <string name="cancel_button">Utzi</string>
+    <string name="exit_button">Irten</string>
+    <string name="buy_newspaper">Egunkaria erosi</string>
 </resources>

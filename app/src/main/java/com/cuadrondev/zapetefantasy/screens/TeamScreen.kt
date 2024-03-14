@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -175,7 +176,7 @@ fun TeamScreen(viewModel: ZapeteFantasyViewModel) {
                                             Toast
                                                 .makeText(
                                                     context,
-                                                    completed + pos,
+                                                    completed + " " + pos,
                                                     Toast.LENGTH_LONG
                                                 )
                                                 .show()
@@ -258,10 +259,10 @@ fun TeamScreen(viewModel: ZapeteFantasyViewModel) {
 @Composable
 fun PositionPoints(player: Player) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Card(colors = CardDefaults.cardColors(containerColor = positionColor(player.position)), modifier = Modifier.padding(4.dp)) {
+        Card(colors = CardDefaults.cardColors(containerColor = positionColor(player.position)), modifier = Modifier.padding(4.dp), shape = CircleShape) {
             Text(text = player.position, fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
         }
-        Card(colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.padding(4.dp)) {
+        Card(colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.padding(4.dp), shape = CircleShape) {
             Text(text = "${player.points}", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.Black)
         }
     }
@@ -326,7 +327,8 @@ fun playerRow(players: List<Player>, numPlayer: Int, viewModel: ZapeteFantasyVie
                         modifier = Modifier.padding(4.dp),
                         fontSize = 10.sp,
                         textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
                 }
             }

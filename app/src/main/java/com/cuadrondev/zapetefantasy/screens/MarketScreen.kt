@@ -136,20 +136,20 @@ fun EstadoJugador(state: String) {
     var texto = ""
     when (state) {
         "Lesionado" -> {
-            Card(colors = CardDefaults.cardColors(containerColor = lesionado), modifier = Modifier.padding(4.dp)) {
-                Text(text = " + ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
+            Card(colors = CardDefaults.cardColors(containerColor = lesionado), modifier = Modifier.padding(4.dp), shape = CircleShape) {
+                Text(text = "  +  ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
 
         "Duda" -> {
-            Card(colors = CardDefaults.cardColors(containerColor = duda), modifier = Modifier.padding(4.dp)) {
-                Text(text = " ? ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
+            Card(colors = CardDefaults.cardColors(containerColor = duda), modifier = Modifier.padding(4.dp), shape = CircleShape) {
+                Text(text = "  ?  ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
 
         "Roja" -> {
             Card(colors = CardDefaults.cardColors(containerColor = roja), modifier = Modifier.padding(4.dp), shape = CircleShape) {
-                Text(text = "   ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
+                Text(text = "  R  ", fontSize = 12.sp, modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
 

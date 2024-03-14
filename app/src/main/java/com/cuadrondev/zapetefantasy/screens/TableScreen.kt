@@ -118,7 +118,7 @@ fun UserAvatar(user: User) {
     Box(
         modifier = Modifier
             .size(30.dp) // Ajusta el tamaño del círculo según tus necesidades
-            .background(color = Color.Gray, shape = CircleShape)
+            .background(color = MaterialTheme.colorScheme.primary, shape = CircleShape),
     ) {
         Text(
             text = initials,
