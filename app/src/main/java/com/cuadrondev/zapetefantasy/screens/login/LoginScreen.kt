@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -55,85 +56,87 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel, cont
     }
 
     val coroutineScope = rememberCoroutineScope()
-    Column(
+
+    LazyColumn(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(id = R.mipmap.zapete_fantasy_icon_no_bg),
-                contentDescription = "",
-                Modifier.size(82.dp)
-            )
-            Text(text = "Zapete Fantasy", fontSize = 12.sp)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Card(modifier = Modifier.padding(30.dp)) {
-            Column(
-                modifier = Modifier.padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                
-                Text(text = "Login", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
-                Spacer(modifier = Modifier.height(8.dp))
+        item {
 
 
-                OutlinedTextField(modifier = Modifier.fillMaxWidth(), value = username, onValueChange = { username = it }, label = {
-                    Text(
-                        text = "Username"
-                    )
-                })
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                var showPassword by remember { mutableStateOf(false) }
-
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") },
-                    modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { showPassword = !showPassword }) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = if (showPassword) R.drawable.visibility_off else R.drawable.visibility),
-                                contentDescription = if (showPassword) "Hide password" else "Show password"
-                            )
-                        }
-                    }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(id = R.mipmap.zapete_fantasy_icon_no_bg),
+                    contentDescription = "",
+                    Modifier.size(82.dp)
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(modifier = Modifier.fillMaxWidth(),onClick = {
-                    coroutineScope.launch(Dispatchers.IO) {
-                        checkCredentials(viewModel, context, username, password)
-                    }
-                }) {
-                    Text(text = "Login")
-                }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
-                    navController.navigate(AppScreens.RegisterScreen.route)
-                }) {
-                    Text(text = "Sign up")
-                }
+                Text(text = "Zapete Fantasy", fontSize = 12.sp)
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(modifier = Modifier.padding(30.dp)) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
 
+                    Text(text = "Login", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = username,
+                        onValueChange = { username = it },
+                        label = {
+                            Text(
+                                text = "Username"
+                            )
+                        })
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    var showPassword by remember { mutableStateOf(false) }
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        modifier = Modifier.fillMaxWidth(),
+                        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { showPassword = !showPassword }) {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = if (showPassword) R.drawable.visibility_off else R.drawable.visibility),
+                                    contentDescription = if (showPassword) "Hide password" else "Show password"
+                                )
+                            }
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            checkCredentials(viewModel, context, username, password)
+                        }
+                    }) {
+                        Text(text = "Login")
+                    }
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
+                        navController.navigate(AppScreens.RegisterScreen.route)
+                    }) {
+                        Text(text = "Sign up")
+                    }
+                }
+
+            }
         }
-
     }
-}
-
-@Composable
-fun PasswordTextField(password: String) {
-    var password by remember { mutableStateOf("") }
-
 }
 
 suspend fun checkCredentials(
@@ -147,8 +150,7 @@ suspend fun checkCredentials(
         intent.putExtra("USERNAME", username)
         context.startActivity(intent)
         (context as Activity).finish()
-    }
-    else{
+    } else {
         showToastOnMainThread(context, "Usuario y/o contraseña incorrectos")
     }
 }

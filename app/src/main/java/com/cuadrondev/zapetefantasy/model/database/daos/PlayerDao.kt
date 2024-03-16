@@ -23,7 +23,7 @@ interface PlayerDao {
     @Query("DELETE FROM Player WHERE name = :player")
     fun deletePlayer(player: String)
 
-    @Query("SELECT * FROM Player WHERE user=='' ORDER BY RANDOM() LIMIT 10")
+    @Query("SELECT * FROM Player WHERE user==''")
     fun getMarket(): Flow<List<Player>>
 
     @Query("SELECT * FROM Post ORDER BY id DESC")

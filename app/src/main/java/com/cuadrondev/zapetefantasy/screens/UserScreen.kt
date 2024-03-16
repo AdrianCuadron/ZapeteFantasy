@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material3.Button
@@ -59,72 +60,76 @@ fun UserScreen(viewModel: ZapeteFantasyViewModel) {
     var userLang = viewModel.idioma.collectAsState(initial = viewModel.currentSetLang).value
     var userCoin = viewModel.coin.collectAsState(initial = "").value
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-            ) {
-                UserAvatar(user = userData.value)
-                Text(text = userData.value.username, fontSize = 12.sp, lineHeight = 12.sp)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "${userData.value.name} ${userData.value.lastname}", fontSize = 32.sp)
-            Spacer(modifier = Modifier.height(32.dp))
-            Card {
+            item {
+
+
+                Spacer(modifier = Modifier.height(32.dp))
                 Column(
-                    modifier = Modifier.padding(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.settings),
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    LanguageDropDown(userLang) { viewModel.changeLanguage(it) }
-                    CoinDropDown(userCoin) { viewModel.changeUserCoin(it) }
+                    UserAvatar(user = userData.value)
+                    Text(text = userData.value.username, fontSize = 12.sp, lineHeight = 12.sp)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "${userData.value.name} ${userData.value.lastname}", fontSize = 32.sp)
+                Spacer(modifier = Modifier.height(32.dp))
+                Card {
+                    Column(
+                        modifier = Modifier.padding(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.settings),
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        LanguageDropDown(userLang) { viewModel.changeLanguage(it) }
+                        CoinDropDown(userCoin) { viewModel.changeUserCoin(it) }
+                    }
+
                 }
 
-            }
+                Spacer(modifier = Modifier.height(32.dp))
 
-            Spacer(modifier = Modifier.height(32.dp))
-
-            //GUARDAR FICHERO TEXTO
-            val contentResolver = LocalContext.current.contentResolver
-            val filename = "Noticias.txt"
-            val saverLauncher =
-                rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument()) { uri ->
-                    if (uri != null) {
-                        try {
-                            contentResolver.openFileDescriptor(uri, "w")?.use {
-                                FileOutputStream(it.fileDescriptor).use { fileOutputStream ->
-                                    fileOutputStream.write(
-                                        (viewModel.obtenerPlantilla()).toByteArray()
-                                    )
+                //GUARDAR FICHERO TEXTO
+                val contentResolver = LocalContext.current.contentResolver
+                val filename = "Noticias.txt"
+                val saverLauncher =
+                    rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument()) { uri ->
+                        if (uri != null) {
+                            try {
+                                contentResolver.openFileDescriptor(uri, "w")?.use {
+                                    FileOutputStream(it.fileDescriptor).use { fileOutputStream ->
+                                        fileOutputStream.write(
+                                            (viewModel.obtenerPlantilla()).toByteArray()
+                                        )
+                                    }
                                 }
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
                             }
-                        } catch (e: FileNotFoundException) {
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
                         }
                     }
+
+                val action = { saverLauncher.launch(filename) }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(onClick = action) {
+                    Text(text = stringResource(id = R.string.buy_newspaper))
                 }
-
-            val action = { saverLauncher.launch(filename) }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = action) {
-                Text(text = stringResource(id = R.string.buy_newspaper))
             }
         }
     }

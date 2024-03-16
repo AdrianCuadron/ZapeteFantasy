@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -71,85 +72,106 @@ fun RegisterScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    Column(
+    LazyColumn(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(id = R.mipmap.zapete_fantasy_icon_no_bg),
-                contentDescription = "",
-                Modifier.size(82.dp)
-            )
-            Text(text = "Zapete Fantasy", fontSize = 12.sp)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Card(modifier = Modifier.padding(30.dp)) {
-            Column(
-                modifier = Modifier.padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Sign up", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
-                Spacer(modifier = Modifier.height(24.dp))
-                OutlinedTextField(modifier = Modifier.fillMaxWidth(), value = username, onValueChange = { username = it }, label = {
-                    Text(
-                        text = "Username"
-                    )
-                })
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Password") },
-                    visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { showPassword = !showPassword }) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = if (showPassword) R.drawable.visibility else R.drawable.visibility_off),
-                                contentDescription = if (showPassword) "Hide password" else "Show password"
-                            )
-                        }
-                    }
+        item {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(id = R.mipmap.zapete_fantasy_icon_no_bg),
+                    contentDescription = "",
+                    Modifier.size(82.dp)
                 )
+                Text(text = "Zapete Fantasy", fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(modifier = Modifier.padding(30.dp)) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "Sign up", fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = username,
+                        onValueChange = { username = it },
+                        label = {
+                            Text(
+                                text = "Username"
+                            )
+                        })
 
-                OutlinedTextField(value = nombre, onValueChange = { nombre = it }, label = {
-                    Text(
-                        text = "Name"
-                    )
-                }, modifier = Modifier.fillMaxWidth(),)
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(modifier = Modifier.fillMaxWidth(),value = apellido, onValueChange = { apellido = it }, label = {
-                    Text(
-                        text = "Last name"
-                    )
-                })
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                    coroutineScope.launch(Dispatchers.IO) {
-                        if (createUser(viewModel, username, password, nombre, apellido, context)) {
-                            withContext(Dispatchers.Main) {
-                                navController.popBackStack()
-                                navController.navigate(AppScreens.LoginScreen.route)
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Password") },
+                        visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { showPassword = !showPassword }) {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = if (showPassword) R.drawable.visibility else R.drawable.visibility_off),
+                                    contentDescription = if (showPassword) "Hide password" else "Show password"
+                                )
                             }
                         }
+                    )
 
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = nombre, onValueChange = { nombre = it },
+                        label = {
+                            Text(
+                                text = "Name"
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = apellido,
+                        onValueChange = { apellido = it },
+                        label = {
+                            Text(
+                                text = "Last name"
+                            )
+                        })
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            if (createUser(
+                                    viewModel,
+                                    username,
+                                    password,
+                                    nombre,
+                                    apellido,
+                                    context
+                                )
+                            ) {
+                                withContext(Dispatchers.Main) {
+                                    navController.popBackStack()
+                                    navController.navigate(AppScreens.LoginScreen.route)
+                                }
+                            }
+
+                        }
+                    }) {
+                        Text(text = "Create user")
                     }
-                }) {
-                    Text(text = "Create user")
                 }
             }
-
         }
 
     }
@@ -169,11 +191,11 @@ fun createUser(
     }
     val existe = viewmodel.checkUserExist(username)
     if (existe != null) {
-        Log.d("existe user","entra ${existe}")
+        Log.d("existe user", "entra ${existe}")
         showToastOnMainThread(context, "El usuario $username ya existe")
         return false
     } else {
-        Log.d("existe user","no existe")
+        Log.d("existe user", "no existe")
         viewmodel.createUser(User(username, password.hash(), nombre, apellido, 0, 200.0))
         return true
     }

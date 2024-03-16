@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class ZapeteFantasyViewModel @Inject constructor(
@@ -68,6 +69,8 @@ class ZapeteFantasyViewModel @Inject constructor(
             dataStore.setUserCoin(currentUser, coin)
         }
     }
+
+    val seed = System.currentTimeMillis()
 
     //DATABASE
     var userData: Flow<User> = userDataRepository.getUserData(username.value)

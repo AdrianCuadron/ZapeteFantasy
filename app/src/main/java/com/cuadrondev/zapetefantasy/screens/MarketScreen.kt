@@ -45,12 +45,13 @@ import com.cuadrondev.zapetefantasy.ui.theme.lesionado
 import com.cuadrondev.zapetefantasy.ui.theme.roja
 import com.cuadrondev.zapetefantasy.utils.crearNotificacion
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
+import kotlin.random.Random
 
 
 @Composable
 fun MarketScreen(viewModel: ZapeteFantasyViewModel) {
     var context = LocalContext.current
-    val marketPlayers by viewModel.marketFlow.collectAsState(emptyList())
+    val marketPlayers by viewModel.marketFlow.collectAsState(initial = emptyList())
     val userData by viewModel.userData.collectAsState(initial = User("","","","",0,0.0))
     var username = viewModel.username.value
     
