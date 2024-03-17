@@ -37,9 +37,9 @@ class ZapeteFantasyViewModel @Inject constructor(
 
     //EXTRAS username
     private var currentUser = (savedStateHandle.get("USERNAME") as? String)!!
+    var username = mutableStateOf(currentUser)
 
-
-    //IDIOMA
+    //IDIOMA Y COIN PREFERENCES
     val currentSetLang by languageManager::currentLang
     val idioma = dataStore.getUserLanguage(currentUser)
     val coin = dataStore.getUserCoin(currentUser)
@@ -47,13 +47,9 @@ class ZapeteFantasyViewModel @Inject constructor(
     //DIALOGOS
     var dialogoPost = mutableStateOf(false)
 
-    var username = mutableStateOf(currentUser)
-
-    //PREFERENCES
-
     fun changeLanguage(lang: String) {
         Log.d("cambioLang", lang)
-        // cambiar lenguaje en datastore y en la interfaz tb
+        // cambiar lenguaje en datastore y en la interfaz
         languageManager.changeLang(lang)
         viewModelScope.launch(Dispatchers.IO) {
             userDataRepository.changeUserLanguage(currentUser, lang)
@@ -69,8 +65,6 @@ class ZapeteFantasyViewModel @Inject constructor(
             dataStore.setUserCoin(currentUser, coin)
         }
     }
-
-    val seed = System.currentTimeMillis()
 
     //DATABASE
     var userData: Flow<User> = userDataRepository.getUserData(username.value)
@@ -92,8 +86,6 @@ class ZapeteFantasyViewModel @Inject constructor(
         }
     }
 
-
-
     fun updateUser(user: User) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -107,8 +99,6 @@ class ZapeteFantasyViewModel @Inject constructor(
             userTeamRepository.insertPost(post)
         }
     }
-
-
 
     //SIGUIENTES PARTIDOS
     data class Partido(
@@ -209,7 +199,7 @@ class ZapeteFantasyViewModel @Inject constructor(
         }
     }
 
-    fun obtenerPlantilla(): String {
+    fun obtenerPosts(): String {
         return runBlocking {
             return@runBlocking postsFlow.first().map { it.texto }.joinToString("\n")
         }

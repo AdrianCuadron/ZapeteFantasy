@@ -111,7 +111,7 @@ fun UserScreen(viewModel: ZapeteFantasyViewModel) {
                                 contentResolver.openFileDescriptor(uri, "w")?.use {
                                     FileOutputStream(it.fileDescriptor).use { fileOutputStream ->
                                         fileOutputStream.write(
-                                            (viewModel.obtenerPlantilla()).toByteArray()
+                                            (viewModel.obtenerPosts()).toByteArray()
                                         )
                                     }
                                 }

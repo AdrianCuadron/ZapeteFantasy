@@ -19,14 +19,6 @@ fun getLanguageCode(name: String) =
         else -> "en"
     }
 
-fun getNameFromLanguageCode(code: String) =
-    when(code){
-        "es" -> "Español"
-        "en" -> "English"
-        "eu" -> "Euskera"
-        else -> "English"
-    }
-
 fun obtenerSimboloMoneda(userCoin: String): String {
     return when (userCoin.lowercase()) {
         "euro" -> "€" // Euro

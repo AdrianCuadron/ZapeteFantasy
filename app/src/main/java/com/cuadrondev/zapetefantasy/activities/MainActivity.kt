@@ -22,19 +22,13 @@ class MainActivity : AppCompatActivity() {
     val viewModel: ZapeteFantasyViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //get extras
         viewModel.initializeLists()
-
-
         setContent {
             ZapeteFantasyTheme {
                 //initialize language
 
                 var idioma = viewModel.idioma.collectAsState(initial = viewModel.currentSetLang).value
                 viewModel.reloadLanguage(idioma)
-                Log.d("currentLang", viewModel.currentSetLang)
-                Log.d("localLang", Locale.getDefault().language.lowercase())
-                Log.d("cambioLang", idioma)
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()

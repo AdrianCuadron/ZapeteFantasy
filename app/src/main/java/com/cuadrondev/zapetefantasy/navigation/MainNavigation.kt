@@ -12,7 +12,6 @@ import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 
 @Composable
 fun MainNavigation(viewModel: ZapeteFantasyViewModel) {
-    var context = LocalContext.current
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = AppScreens.MainScreen.route){

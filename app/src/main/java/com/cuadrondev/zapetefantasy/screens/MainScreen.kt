@@ -109,13 +109,15 @@ fun MainScreen(viewModel: ZapeteFantasyViewModel, navControllerMain: NavHostCont
                     HomeScreen(viewModel = viewModel)
                 }
                 composable(BottomBarRoute.MARKET) {
-                    // Contenido de la pestaña Home
+                    // Contenido de la pestaña Market
                     MarketScreen(viewModel = viewModel)
                 }
                 composable(BottomBarRoute.TEAM) {
+                    // Contenido de la pestaña Team
                     TeamScreen(viewModel = viewModel)
                 }
                 composable(BottomBarRoute.TABLE) {
+                    // Contenido de la pestaña Table
                     TableScreen(viewModel = viewModel)
                 }
             }
@@ -199,10 +201,6 @@ fun ToolBar(viewModel: ZapeteFantasyViewModel, onUserClick: () -> Unit) {
                 ) {
                     Text("${obtenerSimboloMoneda(userCoin)} ${String.format("%.2f", userData.money).replace(",",".")}M", fontWeight = FontWeight.Bold, fontSize = 14.sp, modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp), color = MaterialTheme.colorScheme.primary)
                 }
-
-
-
-                // Imagen de perfil a la derecha
 
             }
         }

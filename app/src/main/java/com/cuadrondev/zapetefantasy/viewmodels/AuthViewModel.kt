@@ -17,11 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val dataStore: PreferencesDataStore,
     private val userDataRepository: UserDataRepository,
-    private val userTeamRepository: UserTeamRepository,
-    private val languageManager: LanguageManager,
-    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     fun checkUserExist(username: String): String {
         return userDataRepository.checkUsernameExists(username)

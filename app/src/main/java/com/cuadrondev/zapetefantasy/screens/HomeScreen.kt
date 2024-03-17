@@ -1,8 +1,6 @@
 package com.cuadrondev.zapetefantasy.screens
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,9 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,14 +47,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.cuadrondev.zapetefantasy.R
 import com.cuadrondev.zapetefantasy.model.entities.Post
-import com.cuadrondev.zapetefantasy.ui.theme.publicacionColor
-import com.cuadrondev.zapetefantasy.ui.theme.transferenciaColor
 import com.cuadrondev.zapetefantasy.viewmodels.ZapeteFantasyViewModel
 import kotlin.system.exitProcess
 
 @Composable
 fun HomeScreen(viewModel: ZapeteFantasyViewModel) {
-    val context = LocalContext.current
 
     var showExitAlertDialog by rememberSaveable { mutableStateOf(false) }
 
